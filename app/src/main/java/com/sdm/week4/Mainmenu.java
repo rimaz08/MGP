@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.content.Intent;
 
 // Created by TanSiewLan2021
+//test
 
 public class Mainmenu extends Activity implements OnClickListener, StateBase {  //Using StateBase class
 
