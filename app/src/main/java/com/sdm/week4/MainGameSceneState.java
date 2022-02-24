@@ -27,7 +27,6 @@ public class MainGameSceneState implements StateBase {
         PausebuttonEntity.Create();
         PopupMenu.Create();
         SliderEntity.Create();
-        EnemyEntity.Create();
         StarUI.Create();
         HealthUI.Create();
 
@@ -56,6 +55,10 @@ public class MainGameSceneState implements StateBase {
 
 
         EntityManager.Instance.Update(_dt);
+        if (SmurfEntityDraggable.getInstance().getDead())
+        {
+            StateManager.Instance.ChangeState("Mainmenu");
+        }
 
         if (TouchManager.Instance.IsDown()) {
 			

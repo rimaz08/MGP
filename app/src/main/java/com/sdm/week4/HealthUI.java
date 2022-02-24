@@ -7,7 +7,7 @@ import android.view.SurfaceView;
 
 public class HealthUI implements EntityBase{
 
-    private Bitmap popUP,ScaledbmpUP;
+    private Sprite spritesmurf = null;
     private float xPos = 0, yPos = 0;
 
     private boolean isDone = false;
@@ -29,13 +29,11 @@ public class HealthUI implements EntityBase{
     @Override
     public void Init(SurfaceView _view) {
 
-        popUP = ResourceManager.Instance.GetBitmap(R.drawable.heart);
+        spritesmurf = new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.player),1,2, 8 );
 
         DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
         ScreenWidth = metrics.widthPixels;
         ScreenHeight = metrics.heightPixels;
-
-        ScaledbmpUP = Bitmap.createScaledBitmap(popUP, (int) (ScreenWidth)-1000, (int)(ScreenWidth)-1000, true);
 
         xPos = 100;
         yPos = ScreenHeight - 200;
@@ -45,13 +43,13 @@ public class HealthUI implements EntityBase{
 
     @Override
     public void Update(float _dt) {
-
+        spritesmurf.Update(_dt);
     }
 
     @Override
     public void Render(Canvas _canvas) {
 
-        _canvas.drawBitmap(ScaledbmpUP,xPos - ScaledbmpUP.getWidth() * 0.5f , yPos - ScaledbmpUP.getHeight() * 0.5f , null);
+        spritesmurf.Render(_canvas, (int)xPos, (int)yPos);
 
     }
 

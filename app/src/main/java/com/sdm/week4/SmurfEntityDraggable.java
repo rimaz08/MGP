@@ -20,7 +20,9 @@ public class SmurfEntityDraggable implements EntityBase {
     private boolean isDone = false;
     private float xPos, yPos, offset;
     private int score = 0;
+    private int health = 5;
     private boolean imdead = false;
+    private float iTime = 0f, iTimeMax = 0.2f;
     private Sprite spritesmurf = null;   // New on Week 8
 
     Random ranGen = new Random(); //wk 8=>Random Generator
@@ -38,7 +40,7 @@ public class SmurfEntityDraggable implements EntityBase {
     @Override
     public void Init(SurfaceView _view) {
         //week 8 => create new sprite instance
-        spritesmurf = new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.smurf_sprite),4,4, 8 );
+        spritesmurf = new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.player),1,2, 8 );
         //week 8=>randomise position
         DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
         xPos = metrics.widthPixels * 0.5f;
@@ -49,6 +51,11 @@ public class SmurfEntityDraggable implements EntityBase {
     public void Update(float _dt) {
         if (GameSystem.Instance.GetIsPaused()){
             return;
+        }
+
+        if (iTime > 0)
+        {
+            iTime -= _dt;
         }
 
         // wk8=> update sprite animation frame based on timing
@@ -62,7 +69,7 @@ public class SmurfEntityDraggable implements EntityBase {
             //Log.v("imgrad","s"+imgRadius1);
             if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(),
                     TouchManager.Instance.GetPosY(),
-                    0.0f, xPos, yPos,
+                    5.0f, xPos, yPos,
                     imgRadius1) )
             {
                 xPos = TouchManager.Instance.GetPosX();
@@ -70,7 +77,7 @@ public class SmurfEntityDraggable implements EntityBase {
             }
         }
         //Wk8=>End Dragging Code
-        GameSystem.Instance.SetIsPaused(imdead);
+        setDead(health <= 0);
     }
 
     @Override
@@ -101,8 +108,13 @@ public class SmurfEntityDraggable implements EntityBase {
     public float getYPos(){return this.yPos;}
 
     public int getScore(){return this.score;}
-    public int setScore(int toSet){return score = toSet; }
+    public int setScore(int toSet){if (iTime <= 0) return this.score = toSet; return this.score;}
+
+    public int getHealth(){return this.health;};
+    public int setHealth(int toSet){if (iTime <= 0) return this.health = toSet; return this.health;}
 
     public boolean getDead(){return this.imdead; }
     public boolean setDead(boolean toSet){return imdead = toSet; };
+
+    public void setInvincible(){iTime = iTimeMax;}
 }

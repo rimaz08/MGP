@@ -65,7 +65,8 @@ public class EnemyBulletEntity implements EntityBase{
 
         if (Collision.SphereToSphere(xPos, yPos,imgRadius1,
                 SmurfEntityDraggable.getInstance().getXPos(), SmurfEntityDraggable.getInstance().getYPos(), 0.f)){
-            SmurfEntityDraggable.getInstance().setDead(true);
+            SmurfEntityDraggable.getInstance().setHealth(SmurfEntityDraggable.getInstance().getHealth() - 1);
+            SmurfEntityDraggable.getInstance().setInvincible();
             isDone = true;
         }
     }

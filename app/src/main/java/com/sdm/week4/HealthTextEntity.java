@@ -64,7 +64,7 @@ public class HealthTextEntity implements EntityBase{
         //paint.setStrokeWidth(200);
         paint.setTypeface(myfont);
         paint.setTextSize(70);
-        _canvas.drawText(": " + hp, 150, 1800, paint);
+        _canvas.drawText(": " + SmurfEntityDraggable.getInstance().getHealth(), 150, 1800, paint);
 
 
     }

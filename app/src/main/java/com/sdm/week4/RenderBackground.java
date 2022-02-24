@@ -31,7 +31,7 @@ public class RenderBackground implements EntityBase{
 
     @Override
     public void Init(SurfaceView _view){
-        bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.gamescene2);
+        bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.newgamescene);
         ship = BitmapFactory.decodeResource(_view.getResources(),R.drawable.ship2_1);
 
         DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
@@ -60,7 +60,7 @@ public class RenderBackground implements EntityBase{
     public void Render(Canvas _canvas){
 
         _canvas.drawBitmap(scaledbmp, xPos, yPos, null);
-        _canvas.drawBitmap(scaledbmp, xPos + ScreenWidth, yPos, null);
+        _canvas.drawBitmap(scaledbmp, xPos, yPos - ScreenHeight,  null);
 
         Matrix transform = new Matrix();
         transform.postRotate((float) Math.toDegrees(30));

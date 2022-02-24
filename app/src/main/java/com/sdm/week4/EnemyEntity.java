@@ -21,7 +21,7 @@ public class EnemyEntity implements EntityBase {
 
     private Sprite enemySprite = null;
     private float xPos = 0, yPos = 0;
-    private float timer = 0, maxTimer = 5f;
+    private float timer = 0, maxTimer = 4f;
     private boolean isDone = false;
     private boolean isInit = false;
 

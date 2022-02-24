@@ -63,6 +63,7 @@ public class StarEntity implements EntityBase{
         if (Collision.SphereToSphere(xPos, yPos,imgRadius1,
                 SmurfEntityDraggable.getInstance().getXPos(), SmurfEntityDraggable.getInstance().getYPos(), 0.2f)){
             SmurfEntityDraggable.getInstance().setScore(SmurfEntityDraggable.getInstance().getScore() + 1);
+            SmurfEntityDraggable.getInstance().setInvincible();
             isDone = true;
         }
     }

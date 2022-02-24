@@ -64,7 +64,7 @@ public class StarTextEntity implements EntityBase{
         //paint.setStrokeWidth(200);
         paint.setTypeface(myfont);
         paint.setTextSize(70);
-        _canvas.drawText(": " + points, 150, 1900, paint);
+        _canvas.drawText(": " + SmurfEntityDraggable.getInstance().getScore(), 150, 1900, paint);
 
 
     }

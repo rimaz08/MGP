@@ -14,7 +14,7 @@ public class PopupMenu implements EntityBase{
 
     private boolean isDone = false;
     private boolean isInit = false;
-    private boolean Paused = false;
+    private boolean toRender = false;
 
     int ScreenWidth, ScreenHeight;
 
@@ -47,14 +47,15 @@ public class PopupMenu implements EntityBase{
 
     @Override
     public void Update(float _dt) {
-
+        if(GameSystem.Instance.GetIsPaused()) toRender = true;
+        else {toRender = false; return;}
     }
 
     @Override
     public void Render(Canvas _canvas) {
-
-        _canvas.drawBitmap(ScaledbmpUP,xPos - ScaledbmpUP.getWidth() * 0.5f , yPos - ScaledbmpUP.getHeight() * 0.5f , null);
-
+        if (toRender == true) {
+            _canvas.drawBitmap(ScaledbmpUP, xPos - ScaledbmpUP.getWidth() * 0.5f, yPos - ScaledbmpUP.getHeight() * 0.5f, null);
+        }
     }
 
     @Override

@@ -61,6 +61,7 @@ public class UpdateThread extends Thread {
         while (isRunning && StateManager.Instance.GetCurrentState() != "INVALID")
         {
             startTime = System.currentTimeMillis();
+
             long currTime = System.nanoTime();
             float deltaTime = (float) ((currTime - prevTime) / 1000000000.0f);
             prevTime = currTime;

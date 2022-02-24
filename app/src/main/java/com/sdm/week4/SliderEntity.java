@@ -10,6 +10,7 @@ public class SliderEntity implements EntityBase {
     private boolean isDone = false;
     private float xPos, yPos, offset;
     private Sprite Slider = null;   // New on Week 8
+    private boolean toRender = false;
 
     int ScreenWidth, ScreenHeight;
 
@@ -38,9 +39,8 @@ public class SliderEntity implements EntityBase {
 
     @Override
     public void Update(float _dt) {
-        if (GameSystem.Instance.GetIsPaused()){
-            return;
-        }
+        if(GameSystem.Instance.GetIsPaused()) toRender = true;
+        else {toRender = false; return;}
         // wk8=> update sprite animation frame based on timing
         Slider.Update(_dt);
 
@@ -52,7 +52,7 @@ public class SliderEntity implements EntityBase {
             //Log.v("imgrad","s"+imgRadius1);
             if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(),
                     TouchManager.Instance.GetPosY(),
-                    0.0f, xPos, yPos,
+                    2.0f, xPos, yPos,
                     imgRadius1) )
             {
                 if (xPos <= 180)
@@ -74,7 +74,9 @@ public class SliderEntity implements EntityBase {
     @Override
     public void Render(Canvas _canvas) {
         //wk 8=>draw sprite using xpos,ypos, must cast in int
-        Slider.Render(_canvas, (int)xPos, (int)yPos);
+        if (toRender == true) {
+            Slider.Render(_canvas, (int) xPos, (int) yPos);
+        }
     }
 
     @Override

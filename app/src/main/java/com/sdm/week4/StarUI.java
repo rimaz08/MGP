@@ -7,7 +7,7 @@ import android.view.SurfaceView;
 
 public class StarUI implements EntityBase{
 
-    private Bitmap popUP,ScaledbmpUP;
+    private Sprite starEntity = null;
     private float xPos = 0, yPos = 0;
 
     private boolean isDone = false;
@@ -29,13 +29,13 @@ public class StarUI implements EntityBase{
     @Override
     public void Init(SurfaceView _view) {
 
-        popUP = ResourceManager.Instance.GetBitmap(R.drawable.star);
+        starEntity = new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.starsmall), 1, 2, 16);
 
         DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
         ScreenWidth = metrics.widthPixels;
         ScreenHeight = metrics.heightPixels;
 
-        ScaledbmpUP = Bitmap.createScaledBitmap(popUP, (int) (ScreenWidth)-1000, (int)(ScreenWidth)-1000, true);
+
 
         xPos = 100;
         yPos = ScreenHeight - 100;
@@ -45,13 +45,13 @@ public class StarUI implements EntityBase{
 
     @Override
     public void Update(float _dt) {
-
+        starEntity.Update(_dt);
     }
 
     @Override
     public void Render(Canvas _canvas) {
 
-        _canvas.drawBitmap(ScaledbmpUP,xPos - ScaledbmpUP.getWidth() * 0.5f , yPos - ScaledbmpUP.getHeight() * 0.5f , null);
+        starEntity.Render(_canvas, (int)xPos, (int)yPos);
 
     }
 
