@@ -9,12 +9,14 @@ public class ResourceManager
 {
     public final static ResourceManager Instance = new ResourceManager();
     private Resources res = null;
-    private HashMap<Integer, Bitmap> resMap = new HashMap<Integer, Bitmap>();
     private ResourceManager() {}
+
+    private HashMap<Integer, Bitmap> resMap = new HashMap<Integer, Bitmap>();
     public void Init(SurfaceView _view)
     {
         res = _view.getResources();
     }
+
     public Bitmap GetBitmap(int _id)
     {
         if (resMap.containsKey(_id))
