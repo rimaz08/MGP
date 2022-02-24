@@ -33,7 +33,7 @@ public class SliderEntity implements EntityBase {
         ScreenHeight = metrics.heightPixels;
 
         xPos = ScreenWidth/2;
-        yPos = ScreenHeight/2;
+        yPos = (ScreenHeight/2) +135;
     }
 
     @Override
@@ -55,7 +55,16 @@ public class SliderEntity implements EntityBase {
                     0.0f, xPos, yPos,
                     imgRadius1) )
             {
-                xPos = TouchManager.Instance.GetPosX();
+                if (xPos <= 180)
+                {
+                    xPos = 181;
+                }
+                else if (xPos >= (ScreenWidth-180))
+                {
+                    xPos = ScreenWidth-181;
+                }
+                else
+                    xPos = TouchManager.Instance.GetPosX();
                 //yPos = TouchManager.Instance.GetPosY();
             }
         }
