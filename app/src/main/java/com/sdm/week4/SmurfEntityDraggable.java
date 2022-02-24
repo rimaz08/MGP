@@ -34,7 +34,9 @@ public class SmurfEntityDraggable implements EntityBase {
 
     @Override
     public void Update(float _dt) {
-        if (GameSystem.Instance.GetIsPaused()) return;
+        if (GameSystem.Instance.GetIsPaused()){
+            return;
+        }
         // wk8=> update sprite animation frame based on timing
         spritesmurf.Update(_dt);
 
@@ -44,7 +46,10 @@ public class SmurfEntityDraggable implements EntityBase {
             // Check collision with the smurf sprite
             float imgRadius1 = spritesmurf.GetWidth() * 0.5f;
             //Log.v("imgrad","s"+imgRadius1);
-            if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos, yPos, imgRadius1) )
+            if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(),
+                    TouchManager.Instance.GetPosY(),
+                    0.0f, xPos, yPos,
+                    imgRadius1) )
             {
                 xPos = TouchManager.Instance.GetPosX();
                 yPos = TouchManager.Instance.GetPosY();
