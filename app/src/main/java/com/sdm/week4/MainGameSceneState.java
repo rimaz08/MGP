@@ -24,15 +24,15 @@ public class MainGameSceneState implements StateBase {
         RenderTextEntity.Create();
         HealthTextEntity.Create();
         StarTextEntity.Create();
-        SmurfEntityDraggable.Create();
-
         PausebuttonEntity.Create();
-        EnemyBulletEntity.Create();
         PopupMenu.Create();
         SliderEntity.Create();
         EnemyEntity.Create();
         StarUI.Create();
         HealthUI.Create();
+
+        SmurfEntityDraggable.getInstance();
+        EnemyEntity.getInstance();
         //EnemyBulletEntity.Create();
         // Example to include another Renderview for Pause Button
     }
