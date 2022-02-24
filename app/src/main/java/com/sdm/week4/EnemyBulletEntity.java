@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class EnemyBulletEntity implements EntityBase{
 
-    private Bitmap bmpP,bmpUP,ScaledbmpP,ScaledbmpUP;
+    private Sprite bulletSprite = null;
     private float xPos = 0, yPos = 0;
 
     private boolean isDone = false;
@@ -35,18 +35,14 @@ public class EnemyBulletEntity implements EntityBase{
     @Override
     public void Init(SurfaceView _view) {
 
-        bmpP = ResourceManager.Instance.GetBitmap(R.drawable.pause);
-        bmpUP = ResourceManager.Instance.GetBitmap(R.drawable.pause1);
+        bulletSprite = new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.fireball), 1, 2, 16);
 
         DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
         ScreenWidth = metrics.widthPixels;
         ScreenHeight = metrics.heightPixels;
 
-        ScaledbmpP = Bitmap.createScaledBitmap(bmpP, (int) (ScreenWidth)/12, (int)(ScreenWidth)/7, true);
-        ScaledbmpUP = Bitmap.createScaledBitmap(bmpUP, (int) (ScreenWidth)/12, (int)(ScreenWidth)/7, true);
-
         xPos = ranGen.nextFloat() * _view.getWidth();
-        yPos = 0;
+        yPos = ScreenHeight * 0.2f;
 
         isInit = true;
     }
@@ -54,18 +50,29 @@ public class EnemyBulletEntity implements EntityBase{
     @Override
     public void Update(float _dt) {
 
+        if (GameSystem.Instance.GetIsPaused()){
+            return;
+        }
+
         yPos += _dt * 200;
-        if(yPos > + ScreenHeight) {
+        bulletSprite.Update(_dt);
+        float imgRadius1 = bulletSprite.GetWidth() * 0.5f;
+        if(yPos > ScreenHeight + imgRadius1) {
             isDone = true;
             return;
+        }
 
+
+        if (Collision.SphereToSphere(xPos, yPos,imgRadius1,
+                SmurfEntityDraggable.getInstance().getXPos(), SmurfEntityDraggable.getInstance().getYPos(), 0.f)){
+            SmurfEntityDraggable.getInstance().setDead(true);
+            isDone = true;
         }
     }
 
     @Override
     public void Render(Canvas _canvas) {
-
-        _canvas.drawBitmap(ScaledbmpP,xPos - ScaledbmpP.getWidth() * 0.5f, yPos - ScaledbmpP.getHeight() * 0.5f, null);
+        bulletSprite.Render(_canvas, (int)xPos, (int)yPos);
 
     }
 
@@ -96,4 +103,5 @@ public class EnemyBulletEntity implements EntityBase{
         EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_ENEMYBULLET);
         return result;
     }
+
 }

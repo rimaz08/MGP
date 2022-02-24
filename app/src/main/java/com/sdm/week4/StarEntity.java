@@ -1,28 +1,26 @@
 package com.sdm.week4;
 
-// Created by TanSiewLan20201
-// Sample Entity
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
+import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
 import java.util.Random;
 
-public class StarEntity implements EntityBase, Collidable{
+public class StarEntity implements EntityBase{
 
-    private Bitmap bmp = null;
+    private Sprite starEntity = null;
+    private float xPos = 0, yPos = 0;
 
-    private float xPos = 0;
-    private float xStart = 0;
-    private float yPos = 0;
-    private float screenHeight = 0;
-    private float speed = 0;
     private boolean isDone = false;
     private boolean isInit = false;
+    private boolean Paused = false;
 
     int ScreenWidth, ScreenHeight;
+
+    Random ranGen = new Random(); //wk 8=>Random Generator
+
+    private float buttonDelay = 0;
 
     @Override
     public boolean IsDone() {
@@ -37,42 +35,41 @@ public class StarEntity implements EntityBase, Collidable{
     @Override
     public void Init(SurfaceView _view) {
 
-        // New method using our own resource manager : Returns pre-loaded one if exists
-        bmp = ResourceManager.Instance.GetBitmap(R.drawable.star);
+        starEntity = new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.star), 1, 2, 16);
 
+        DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
+        ScreenWidth = metrics.widthPixels;
+        ScreenHeight = metrics.heightPixels;
 
+        xPos = ranGen.nextFloat() * _view.getWidth();
+        yPos = 0;
 
         isInit = true;
     }
 
     @Override
     public void Update(float _dt) {
+        if(GameSystem.Instance.GetIsPaused()) return;
 
-        // Do nothing if it is not in the main game state
-        if (StateManager.Instance.GetCurrentState() != "MainGame")
+        yPos += _dt * 200;
+        starEntity.Update(_dt);
+        float imgRadius1 = starEntity.GetWidth() * 0.5f;
+        if(yPos > + ScreenHeight + imgRadius1) {
+            isDone = true;
             return;
-
-
-
-        // Check out of screen
-        if (xPos <= -bmp.getHeight() * 0.5f){
-
-            // Move it to another random pos again
 
         }
 
-
-
+        if (Collision.SphereToSphere(xPos, yPos,imgRadius1,
+                SmurfEntityDraggable.getInstance().getXPos(), SmurfEntityDraggable.getInstance().getYPos(), 0.2f)){
+            SmurfEntityDraggable.getInstance().setScore(SmurfEntityDraggable.getInstance().getScore() + 1);
+            isDone = true;
+        }
     }
 
     @Override
     public void Render(Canvas _canvas) {
-
-        Matrix transform = new Matrix();
-        transform.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
-
-        transform.postTranslate(xPos, yPos);
-        _canvas.drawBitmap(bmp, transform, null);
+        starEntity.Render(_canvas, (int)xPos, (int)yPos);
 
     }
 
@@ -84,7 +81,7 @@ public class StarEntity implements EntityBase, Collidable{
 
     @Override
     public int GetRenderLayer() {
-        return LayerConstants.STAR_LAYER;
+        return LayerConstants.ENEMYBULLET_LAYER;
     }
 
     @Override
@@ -93,42 +90,14 @@ public class StarEntity implements EntityBase, Collidable{
     }
 
     @Override
-    public ENTITY_TYPE GetEntityType(){ return ENTITY_TYPE.ENT_DEFAULT;}
+    public ENTITY_TYPE GetEntityType(){ return ENTITY_TYPE.ENT_STAR;}
+
+    public float GetYPosition(){ return yPos;};
 
     public static StarEntity Create()
     {
         StarEntity result = new StarEntity();
-        EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_DEFAULT);
+        EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_STAR);
         return result;
     }
-
-    @Override
-    public String GetType() {
-        return "StarEntity";
-    }
-
-    @Override
-    public float GetPosX() {
-        return xPos;
-    }
-
-    @Override
-    public float GetPosY() {
-        return yPos;
-    }
-
-    @Override
-    public float GetRadius() {
-        return bmp.getWidth();
-    }
-
-    @Override
-    public void OnHit(Collidable _other) {
-        if(_other.GetType() != this.GetType()
-                && _other.GetType() !=  "SmurfEntity") {  // Another entity
-            SetIsDone(true);
-        }
-    }
-
 }
-

@@ -4,14 +4,24 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
+import java.lang.Math;
 import com.sdm.week4.EnemyBulletEntity;
 
 import java.util.Random;
 
 public class EnemyEntity implements EntityBase {
-    private Bitmap bmpP, ScaledbmpP;
+    public static EnemyEntity single_instance = null;
+    public static EnemyEntity getInstance(){
+        if (single_instance == null) {
+            single_instance = new EnemyEntity();
+            EntityManager.Instance.AddEntity(single_instance, ENTITY_TYPE.ENT_SMURF);
+        }
+        return single_instance;
+    }
+
+    private Sprite enemySprite = null;
     private float xPos = 0, yPos = 0;
-    private float timer = 0, maxTimer = 2;
+    private float timer = 0, maxTimer = 5f;
     private boolean isDone = false;
     private boolean isInit = false;
 
@@ -32,16 +42,13 @@ public class EnemyEntity implements EntityBase {
     @Override
     public void Init(SurfaceView _view) {
 
-        bmpP = ResourceManager.Instance.GetBitmap(R.drawable.pause);
-
+        enemySprite = new Sprite(ResourceManager.Instance.GetBitmap(R.drawable.enemy), 1, 2, 16);
         DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
         ScreenWidth = metrics.widthPixels;
         ScreenHeight = metrics.heightPixels;
 
-        ScaledbmpP = Bitmap.createScaledBitmap(bmpP, (int) (ScreenWidth)/12, (int)(ScreenWidth)/7, true);
-
         xPos = ScreenWidth/2;
-        yPos = 0;
+        yPos = 0.1f * ScreenHeight;
 
         isInit = true;
     }
@@ -52,17 +59,19 @@ public class EnemyEntity implements EntityBase {
 
         timer -= _dt;
         if (timer <= 0) {
-            EnemyBulletEntity.Create();
+            StarEntity.Create();
             EnemyBulletEntity.Create();
             EnemyBulletEntity.Create();
             timer = maxTimer;
+            maxTimer *= Math.pow(0.5, _dt);
         }
+        enemySprite.Update(_dt);
     }
 
     @Override
     public void Render(Canvas _canvas) {
 
-        _canvas.drawBitmap(ScaledbmpP,xPos - ScaledbmpP.getWidth() * 0.5f, yPos - ScaledbmpP.getHeight() * 0.5f, null);
+        enemySprite.Render(_canvas, (int)xPos, (int)yPos);
 
     }
 
@@ -74,7 +83,7 @@ public class EnemyEntity implements EntityBase {
 
     @Override
     public int GetRenderLayer() {
-        return LayerConstants.ENEMYBULLET_LAYER;
+        return LayerConstants.ENEMY_LAYER;
     }
 
     @Override

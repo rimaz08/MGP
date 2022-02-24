@@ -16,6 +16,7 @@ public interface EntityBase
          ENT_ENEMY,
         ENT_ENEMYBULLET,
          ENT_BLANK,
+         ENT_STAR,
         ENT_NEXT,
         ENT_DEFAULT,
     }
