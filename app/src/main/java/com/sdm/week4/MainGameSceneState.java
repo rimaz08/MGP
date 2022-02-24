@@ -22,10 +22,17 @@ public class MainGameSceneState implements StateBase {
         RenderBackground.Create();
 
         RenderTextEntity.Create();
+        HealthTextEntity.Create();
+        StarTextEntity.Create();
+        SmurfEntityDraggable.Create();
 
         PausebuttonEntity.Create();
-        EnemyEntity.getInstance();
-        SmurfEntityDraggable.getInstance();
+        EnemyBulletEntity.Create();
+        PopupMenu.Create();
+        SliderEntity.Create();
+        EnemyEntity.Create();
+        StarUI.Create();
+        HealthUI.Create();
         //EnemyBulletEntity.Create();
         // Example to include another Renderview for Pause Button
     }
@@ -45,6 +52,8 @@ public class MainGameSceneState implements StateBase {
 
     @Override
     public void Update(float _dt) {
+
+
 
         EntityManager.Instance.Update(_dt);
 
