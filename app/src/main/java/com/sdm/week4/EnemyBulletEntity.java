@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
+import java.util.Random;
+
 public class EnemyBulletEntity implements EntityBase{
 
     private Bitmap bmpP,bmpUP,ScaledbmpP,ScaledbmpUP;
@@ -15,6 +17,8 @@ public class EnemyBulletEntity implements EntityBase{
     private boolean Paused = false;
 
     int ScreenWidth, ScreenHeight;
+
+    Random ranGen = new Random(); //wk 8=>Random Generator
 
     private float buttonDelay = 0;
 
@@ -41,8 +45,8 @@ public class EnemyBulletEntity implements EntityBase{
         ScaledbmpP = Bitmap.createScaledBitmap(bmpP, (int) (ScreenWidth)/12, (int)(ScreenWidth)/7, true);
         ScaledbmpUP = Bitmap.createScaledBitmap(bmpUP, (int) (ScreenWidth)/12, (int)(ScreenWidth)/7, true);
 
-        xPos = ScreenWidth/2;
-        yPos = ScreenHeight - 10;
+        xPos = ranGen.nextFloat() * _view.getWidth();
+        yPos = 0;
 
         isInit = true;
     }
@@ -50,7 +54,12 @@ public class EnemyBulletEntity implements EntityBase{
     @Override
     public void Update(float _dt) {
 
-        yPos += _dt * 500;
+        yPos += _dt * 200;
+        if(yPos > + ScreenHeight) {
+            isDone = true;
+            return;
+
+        }
 
         if (TouchManager.Instance.HasTouch()) {
             if (TouchManager.Instance.IsDown() && !Paused) {
@@ -72,11 +81,7 @@ public class EnemyBulletEntity implements EntityBase{
     @Override
     public void Render(Canvas _canvas) {
 
-        if (Paused == false)
-            _canvas.drawBitmap(ScaledbmpP,xPos - ScaledbmpP.getWidth() * 0.5f, yPos - ScaledbmpP.getHeight() * 0.5f, null);
-        else
-            _canvas.drawBitmap(ScaledbmpUP,xPos - ScaledbmpUP.getWidth() * 0.5f, yPos - ScaledbmpUP.getHeight() * 0.5f, null);
-
+        _canvas.drawBitmap(ScaledbmpP,xPos - ScaledbmpP.getWidth() * 0.5f, yPos - ScaledbmpP.getHeight() * 0.5f, null);
 
     }
 

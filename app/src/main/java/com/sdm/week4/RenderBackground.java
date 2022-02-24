@@ -49,7 +49,7 @@ public class RenderBackground implements EntityBase{
         if(xPos < - ScreenWidth){
             xPos = 0;*/
 
-        yPos += _dt * 500;
+        yPos += _dt * 100;
 
         if(yPos > + ScreenHeight){
             yPos = 0;
