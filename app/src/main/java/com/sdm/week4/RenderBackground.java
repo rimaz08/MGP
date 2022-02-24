@@ -31,7 +31,7 @@ public class RenderBackground implements EntityBase{
 
     @Override
     public void Init(SurfaceView _view){
-        bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.gamescene);
+        bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.gamescene2);
         ship = BitmapFactory.decodeResource(_view.getResources(),R.drawable.ship2_1);
 
         DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
@@ -44,9 +44,14 @@ public class RenderBackground implements EntityBase{
     @Override
     public void Update(float _dt){
 
-        yPos += _dt * 200;
+        /*xPos -= _dt * 500;
 
-        if(yPos < - ScreenHeight){
+        if(xPos < - ScreenWidth){
+            xPos = 0;*/
+
+        yPos += _dt * 500;
+
+        if(yPos > + ScreenHeight){
             yPos = 0;
         }
     }
