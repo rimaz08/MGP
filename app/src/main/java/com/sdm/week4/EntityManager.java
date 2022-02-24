@@ -3,6 +3,8 @@ package com.sdm.week4;
 import android.graphics.Canvas;
 import android.view.SurfaceView;
 
+import org.w3c.dom.Entity;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -13,6 +15,7 @@ public class EntityManager {
 
     public final static EntityManager Instance = new EntityManager();
     private LinkedList<EntityBase> entityList = new LinkedList<EntityBase>();
+    private LinkedList<EntityBase> entitiesToAdd = new LinkedList<EntityBase>();
     private SurfaceView view = null;
 
     private EntityManager()
@@ -27,6 +30,11 @@ public class EntityManager {
     public void Update(float _dt)
     {
         LinkedList<EntityBase> removalList = new LinkedList<EntityBase>();
+
+        for (EntityBase currEntity : entitiesToAdd){
+            entityList.add(currEntity);
+        }
+        entitiesToAdd.clear();
 
         // Update all
         for(int i = 0; i < entityList.size(); ++i)
@@ -125,7 +133,7 @@ public class EntityManager {
 
     public void AddEntity(EntityBase _newEntity, EntityBase.ENTITY_TYPE entity_type)
     {
-        entityList.add(_newEntity);
+        entitiesToAdd.add(_newEntity);
     }
 
     public void Clean()

@@ -4,23 +4,20 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.DisplayMetrics;
 import android.view.SurfaceView;
+import com.sdm.week4.EnemyBulletEntity;
 
 import java.util.Random;
 
-public class EnemyBulletEntity implements EntityBase{
-
-    private Bitmap bmpP,bmpUP,ScaledbmpP,ScaledbmpUP;
+public class EnemyEntity implements EntityBase {
+    private Bitmap bmpP, ScaledbmpP;
     private float xPos = 0, yPos = 0;
-
+    private float timer = 0, maxTimer = 2;
     private boolean isDone = false;
     private boolean isInit = false;
-    private boolean Paused = false;
 
     int ScreenWidth, ScreenHeight;
 
     Random ranGen = new Random(); //wk 8=>Random Generator
-
-    private float buttonDelay = 0;
 
     @Override
     public boolean IsDone() {
@@ -36,16 +33,14 @@ public class EnemyBulletEntity implements EntityBase{
     public void Init(SurfaceView _view) {
 
         bmpP = ResourceManager.Instance.GetBitmap(R.drawable.pause);
-        bmpUP = ResourceManager.Instance.GetBitmap(R.drawable.pause1);
 
         DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
         ScreenWidth = metrics.widthPixels;
         ScreenHeight = metrics.heightPixels;
 
         ScaledbmpP = Bitmap.createScaledBitmap(bmpP, (int) (ScreenWidth)/12, (int)(ScreenWidth)/7, true);
-        ScaledbmpUP = Bitmap.createScaledBitmap(bmpUP, (int) (ScreenWidth)/12, (int)(ScreenWidth)/7, true);
 
-        xPos = ranGen.nextFloat() * _view.getWidth();
+        xPos = ScreenWidth/2;
         yPos = 0;
 
         isInit = true;
@@ -53,12 +48,14 @@ public class EnemyBulletEntity implements EntityBase{
 
     @Override
     public void Update(float _dt) {
+        if(GameSystem.Instance.GetIsPaused()) return;
 
-        yPos += _dt * 200;
-        if(yPos > + ScreenHeight) {
-            isDone = true;
-            return;
-
+        timer -= _dt;
+        if (timer <= 0) {
+            EnemyBulletEntity.Create();
+            EnemyBulletEntity.Create();
+            EnemyBulletEntity.Create();
+            timer = maxTimer;
         }
     }
 
@@ -86,14 +83,14 @@ public class EnemyBulletEntity implements EntityBase{
     }
 
     @Override
-    public ENTITY_TYPE GetEntityType(){ return ENTITY_TYPE.ENT_ENEMYBULLET;}
+    public ENTITY_TYPE GetEntityType(){ return ENTITY_TYPE.ENT_ENEMY;}
 
     public float GetYPosition(){ return yPos;};
 
-    public static EnemyBulletEntity Create()
+    public static EnemyEntity Create()
     {
-        EnemyBulletEntity result = new EnemyBulletEntity();
-        EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_ENEMYBULLET);
+        EnemyEntity result = new EnemyEntity();
+        EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_ENEMY);
         return result;
     }
 }
