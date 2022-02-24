@@ -18,6 +18,7 @@ public interface EntityBase
         ENT_POPUP,
         ENT_SLIDER,
         ENT_ENEMY,
+         ENT_STARUI,
         ENT_NEXT,
         ENT_DEFAULT,
     }
