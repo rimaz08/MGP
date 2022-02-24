@@ -26,6 +26,8 @@ public class MainGameSceneState implements StateBase {
 
         PausebuttonEntity.Create();
         EnemyBulletEntity.Create();
+        PopupMenu.Create();
+        SliderEntity.Create();
         // Example to include another Renderview for Pause Button
     }
 
@@ -44,6 +46,8 @@ public class MainGameSceneState implements StateBase {
 
     @Override
     public void Update(float _dt) {
+
+
 
         EntityManager.Instance.Update(_dt);
 
