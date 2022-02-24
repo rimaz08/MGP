@@ -49,7 +49,7 @@ public class PausebuttonEntity implements EntityBase{
 
     @Override
     public void Update(float _dt) {
-        if (GameSystem.Instance.GetIsPaused()) return;
+        //if (GameSystem.Instance.GetIsPaused()) return;
         buttonDelay += _dt;
 
         if (TouchManager.Instance.HasTouch()) {
@@ -57,12 +57,23 @@ public class PausebuttonEntity implements EntityBase{
                 // Check Collision of button here!!
                 float imgRadius = ScaledbmpP.getHeight() * 0.5f;
 
-                if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(), 0.0f, xPos, yPos, imgRadius) && buttonDelay >= 0.25) {
-                    Paused = true;
-
+                if (Collision.SphereToSphere(TouchManager.Instance.GetPosX(),
+                        TouchManager.Instance.GetPosY(),
+                        0.0f, xPos, yPos, imgRadius)
+                        && buttonDelay >= 0.25) {
+                    boolean toSet = false;
+                    if (GameSystem.Instance.GetIsPaused() == false)
+                    {
+                        toSet = true;
+                    }
+                    else if (GameSystem.Instance.GetIsPaused() == true)
+                    {
+                        toSet = false;
+                    }
+                    GameSystem.Instance.SetIsPaused(toSet);
                 }
                 buttonDelay = 0;
-                GameSystem.Instance.SetIsPaused(!GameSystem.Instance.GetIsPaused());
+                GameSystem.Instance.SetIsPaused(GameSystem.Instance.GetIsPaused());
             }
         } else
             Paused = false;
