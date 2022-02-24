@@ -22,7 +22,7 @@ public class MainGameSceneState implements StateBase {
         RenderBackground.Create();
 
         RenderTextEntity.Create();
-        SmurfEntity.Create();
+        SmurfEntityDraggable.Create();
 
         PausebuttonEntity.Create();
         // Example to include another Renderview for Pause Button
@@ -49,7 +49,6 @@ public class MainGameSceneState implements StateBase {
         if (TouchManager.Instance.IsDown()) {
 			
             //Example of touch on screen in the main game to trigger back to Main menu
-            StateManager.Instance.ChangeState("Mainmenu");
         }
     }
 }
