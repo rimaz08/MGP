@@ -28,6 +28,8 @@ public class MainGameSceneState implements StateBase {
         EnemyBulletEntity.Create();
         PopupMenu.Create();
         SliderEntity.Create();
+        EnemyEntity.Create();
+        //EnemyBulletEntity.Create();
         // Example to include another Renderview for Pause Button
     }
 

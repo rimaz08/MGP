@@ -14,6 +14,7 @@ public interface EntityBase
         ENT_PAUSE,
         ENT_TEXT,
         ENT_ENEMYBULLET,
+         ENT_BLANK,
         ENT_POPUP,
         ENT_SLIDER,
         ENT_NEXT,
