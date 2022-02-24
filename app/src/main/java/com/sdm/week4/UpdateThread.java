@@ -23,6 +23,7 @@ public class UpdateThread extends Thread {
         holder = _view.getHolder();
 
 		// Manage your managers if there is any
+        ResourceManager.Instance.Init(_view);
         StateManager.Instance.Init(_view);
         EntityManager.Instance.Init(_view);
         GameSystem.Instance.Init(_view);
