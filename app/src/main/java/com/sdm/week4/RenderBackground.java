@@ -44,10 +44,10 @@ public class RenderBackground implements EntityBase{
     @Override
     public void Update(float _dt){
 
-        xPos -= _dt * 500;
+        yPos += _dt * 200;
 
-        if(xPos < - ScreenWidth){
-            xPos = 0;
+        if(yPos < - ScreenHeight){
+            yPos = 0;
         }
     }
 
