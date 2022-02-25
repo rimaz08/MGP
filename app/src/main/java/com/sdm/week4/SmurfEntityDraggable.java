@@ -52,6 +52,7 @@ public class SmurfEntityDraggable implements EntityBase {
         if (GameSystem.Instance.GetIsPaused()){
             return;
         }
+        if (SmurfEntityDraggable.getInstance().getDead()) return;
 
         if (iTime > 0)
         {

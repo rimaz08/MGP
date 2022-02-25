@@ -40,6 +40,7 @@ public class MainGameSceneState implements StateBase {
         SliderEntity.Create();
         StarUI.Create();
         HealthUI.Create();
+        Leaderboard.Create();
 
         SmurfEntityDraggable.getInstance();
         EnemyEntity.getInstance();
@@ -69,11 +70,12 @@ public class MainGameSceneState implements StateBase {
         EntityManager.Instance.Update(_dt);
         if (SmurfEntityDraggable.getInstance().getDead())
         {
-            AudioManager.Instance.PlayAudio(R.raw.failed,AudioManager.Instance.GetVolumeLevel());
+            //AudioManager.Instance.PlayAudio(R.raw.failed,AudioManager.Instance.GetVolumeLevel());
+            //GameSystem.Instance.SetIsPaused(true);
             GameSystem.Instance.SaveEditBegin();
             GameSystem.Instance.SetIntInSave("Score",SmurfEntityDraggable.getInstance().getScore());
             GameSystem.Instance.SaveEditEnd();
-            StateManager.Instance.ChangeState("Mainmenu");
+            //StateManager.Instance.ChangeState("Mainmenu");
 
             //StateManager.Instance.Clean();
             //StateManager.Instance.AddState(new MainGameSceneState());

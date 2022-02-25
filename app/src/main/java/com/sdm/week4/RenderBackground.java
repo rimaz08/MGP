@@ -44,6 +44,7 @@ public class RenderBackground implements EntityBase{
     @Override
     public void Update(float _dt){
         if (GameSystem.Instance.GetIsPaused()) return;
+        if (SmurfEntityDraggable.getInstance().getDead()) return;
         /*xPos -= _dt * 500;
 
         if(xPos < - ScreenWidth){

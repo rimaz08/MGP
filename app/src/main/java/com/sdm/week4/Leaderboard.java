@@ -1,95 +1,98 @@
 package com.sdm.week4;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Bundle;
+import android.graphics.Typeface;
+import android.util.DisplayMetrics;
 import android.view.SurfaceView;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
 
-// Created by TanSiewLan2021
-//test
+public class Leaderboard implements EntityBase{
 
-public class Leaderboard extends Activity implements OnClickListener, StateBase {  //Using StateBase class
+    private Bitmap popUP,ScaledbmpUP;
+    private float xPos = 0, yPos = 0;
 
-    private Button btn_back;
+    private boolean isDone = false;
+    private boolean isInit = false;
+    private boolean toRender = false;
+
+    int ScreenWidth, ScreenHeight;
+
+    Typeface myfont;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Hide Title
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        // Hide Top Bar
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        setContentView(R.layout.leaderboard);
-		  StateManager.Instance.AddState(new Leaderboard());
+    public boolean IsDone() {
+        return isDone;
     }
 
     @Override
-    //Invoke a callback event in the view
-    public void onClick(View v)
-    {
-        // Intent = action to be performed.
-        // Intent is an object provides runtime binding.
-        // new instance of this object intent
+    public void SetIsDone(boolean _isDone) {
+        isDone = _isDone;
+    }
 
-        Intent intent = new Intent();
+    @Override
+    public void Init(SurfaceView _view) {
 
+        popUP = ResourceManager.Instance.GetBitmap(R.drawable.popupmenu);
 
+        DisplayMetrics metrics = _view.getResources().getDisplayMetrics();
+        ScreenWidth = metrics.widthPixels;
+        ScreenHeight = metrics.heightPixels;
+
+        ScaledbmpUP = Bitmap.createScaledBitmap(popUP, (int) (ScreenWidth)-6, (int)(ScreenWidth)-10, true);
+
+        xPos = ScreenWidth/2;
+        yPos = ScreenHeight/2;
+
+        myfont = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL);
+
+        isInit = true;
+    }
+
+    @Override
+    public void Update(float _dt) {
+        if(SmurfEntityDraggable.getInstance().getDead()) toRender = true;
+        else {toRender = false; return;}
     }
 
     @Override
     public void Render(Canvas _canvas) {
-        EntityManager.Instance.Render(_canvas);
+        if (toRender == true) {
+            _canvas.drawBitmap(ScaledbmpUP, xPos - ScaledbmpUP.getWidth() * 0.5f, yPos - ScaledbmpUP.getHeight() * 0.5f, null);
+            String scoreText = String.format("Score : %d", GameSystem.Instance.GetIntFromSave("Score"));
 
-        String scoreText = String.format("SCORE : %d",GameSystem.Instance.GetIntFromSave("Score"));
+            Paint paint = new Paint();
+            paint.setARGB(255, 0,0,0);
+            paint.setTypeface(myfont);
+            paint.setTextSize(70);
 
-        Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(64);
-
-        _canvas.drawText("score: " + scoreText, 10, 220, paint);
-    }
-	
-    @Override
-    public void OnEnter(SurfaceView _view) {
-    }
-	
-    @Override
-    public void OnExit() {
-    }
-	
-    @Override
-    public void Update(float _dt) {
-    }
-	
-    @Override
-    public String GetName() {
-        return "Leaderboard";
+            _canvas.drawText(scoreText, 20, 600, paint);
+        }
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    public boolean IsInit() {
+
+        return isInit;
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    public int GetRenderLayer() {
+        return LayerConstants.POPUP_LAYER;
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void SetRenderLayer(int _newLayer) {
+        return;
+    }
+
+    @Override
+    public ENTITY_TYPE GetEntityType(){ return ENTITY_TYPE.ENT_LEADERBOARD;}
+
+    public static Leaderboard Create()
+    {
+        Leaderboard result = new Leaderboard();
+        EntityManager.Instance.AddEntity(result, ENTITY_TYPE.ENT_POPUP);
+        return result;
     }
 }

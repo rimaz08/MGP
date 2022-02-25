@@ -20,6 +20,7 @@ public interface EntityBase
          ENT_STARUI,
          ENT_POPUP,
          ENT_SLIDER,
+         ENT_LEADERBOARD,
         ENT_NEXT,
         ENT_DEFAULT,
     }

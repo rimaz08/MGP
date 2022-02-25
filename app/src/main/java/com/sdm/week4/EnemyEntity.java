@@ -56,6 +56,7 @@ public class EnemyEntity implements EntityBase {
     @Override
     public void Update(float _dt) {
         if(GameSystem.Instance.GetIsPaused()) return;
+        if (SmurfEntityDraggable.getInstance().getDead()) return;
 
         timer -= _dt;
         if (timer <= 0) {

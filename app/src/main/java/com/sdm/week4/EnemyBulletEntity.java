@@ -53,6 +53,7 @@ public class EnemyBulletEntity implements EntityBase{
         if (GameSystem.Instance.GetIsPaused()){
             return;
         }
+        if (SmurfEntityDraggable.getInstance().getDead()) return;
 
         yPos += _dt * 200;
         bulletSprite.Update(_dt);
