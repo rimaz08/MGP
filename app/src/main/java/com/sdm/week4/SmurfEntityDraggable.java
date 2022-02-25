@@ -20,7 +20,7 @@ public class SmurfEntityDraggable implements EntityBase {
     private boolean isDone = false;
     private float xPos, yPos, offset;
     private int score = 0;
-    private int health = 5;
+    private int health = 2;
     private boolean imdead = false;
     private float iTime = 0f, iTimeMax = 0.2f;
     private Sprite spritesmurf = null;   // New on Week 8

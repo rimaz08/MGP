@@ -1,25 +1,24 @@
 package com.sdm.week4;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.os.Bundle;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-import android.content.Intent;
+import android.widget.Button;
 
 // Created by TanSiewLan2021
 //test
 
-public class Mainmenu extends Activity implements OnClickListener, StateBase {  //Using StateBase class
+public class Leaderboard extends Activity implements OnClickListener, StateBase {  //Using StateBase class
 
-    //Define buttons
-    private Button btn_start;
     private Button btn_back;
-    private Button btn_leaderboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,18 +31,8 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.mainmenu);
-
-        btn_start = (Button)findViewById(R.id.btn_start);
-        btn_start.setOnClickListener(this); //Set Listener to this button --> Start Button
-
-        btn_back = (Button)findViewById(R.id.btn_back);
-        btn_back.setOnClickListener(this); //Set Listener to this button --> Back Button
-
-        btn_leaderboard = (Button)findViewById(R.id.btn_leaderboard);
-        btn_leaderboard.setOnClickListener(this);
-
-		  StateManager.Instance.AddState(new Mainmenu());
+        setContentView(R.layout.leaderboard);
+		  StateManager.Instance.AddState(new Leaderboard());
     }
 
     @Override
@@ -56,29 +45,20 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
 
         Intent intent = new Intent();
 
-        if (v == btn_start)
-        {
-            // intent --> to set to another class which another page or screen that we are launching.
-            intent.setClass(this, GamePage.class);
- 				 StateManager.Instance.ChangeState("MainGame"); // Default is like a loading page
-
-        }
-        else if (v == btn_leaderboard)
-        {
-            intent.setClass(this, Leaderboard.class);
-            StateManager.Instance.ChangeState("Leaderboard");
-        }
-
-        else if (v == btn_back)
-        {
-            intent.setClass(this, Mainmenu.class);
-        }
-        startActivity(intent);
 
     }
 
     @Override
     public void Render(Canvas _canvas) {
+        EntityManager.Instance.Render(_canvas);
+
+        String scoreText = String.format("SCORE : %d",GameSystem.Instance.GetIntFromSave("Score"));
+
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(64);
+
+        _canvas.drawText("score: " + scoreText, 10, 220, paint);
     }
 	
     @Override
@@ -95,7 +75,7 @@ public class Mainmenu extends Activity implements OnClickListener, StateBase {  
 	
     @Override
     public String GetName() {
-        return "Mainmenu";
+        return "Leaderboard";
     }
 
     @Override
