@@ -66,6 +66,7 @@ public class EnemyBulletEntity implements EntityBase{
         if (Collision.SphereToSphere(xPos, yPos,imgRadius1,
                 SmurfEntityDraggable.getInstance().getXPos(), SmurfEntityDraggable.getInstance().getYPos(), 0.f)){
             SmurfEntityDraggable.getInstance().setHealth(SmurfEntityDraggable.getInstance().getHealth() - 1);
+            AudioManager.Instance.PlayAudio(R.raw.bruh,AudioManager.Instance.GetVolumeLevel());
             SmurfEntityDraggable.getInstance().setInvincible();
             isDone = true;
         }

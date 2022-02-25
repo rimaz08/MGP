@@ -63,8 +63,30 @@ public class SliderEntity implements EntityBase {
                 {
                     xPos = ScreenWidth-181;
                 }
-                else
+                else {
                     xPos = TouchManager.Instance.GetPosX();
+                    AudioManager.Instance.SetVolumeLevel(00.f);
+                    /*if (xPos <= 1 && xPos >= 100)
+                    {
+                        AudioManager.Instance.SetVolumeLevel(0.0f);
+                    }
+                    else if (xPos <= 101 && xPos >= 200)
+                    {
+                        AudioManager.Instance.SetVolumeLevel(0.2f);
+                    }
+                    else if (xPos <= 202 && xPos >= 300)
+                    {
+                        AudioManager.Instance.SetVolumeLevel(0.4f);
+                    }
+                    else if (xPos <= (ScreenWidth-100) && xPos >= (ScreenWidth))
+                    {
+                        AudioManager.Instance.SetVolumeLevel(2.0f);
+                    }
+                    else if (xPos <= (ScreenWidth+1) && xPos >= (ScreenWidth+100))
+                    {
+                        AudioManager.Instance.SetVolumeLevel(4.0f);
+                    }*/
+                }
                 //yPos = TouchManager.Instance.GetPosY();
             }
         }

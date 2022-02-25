@@ -57,6 +57,7 @@ public class MainGameSceneState implements StateBase {
         EntityManager.Instance.Update(_dt);
         if (SmurfEntityDraggable.getInstance().getDead())
         {
+            AudioManager.Instance.PlayAudio(R.raw.failed,AudioManager.Instance.GetVolumeLevel());
             StateManager.Instance.ChangeState("Mainmenu");
         }
 

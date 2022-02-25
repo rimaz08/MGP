@@ -14,6 +14,7 @@ public class AudioManager {
     private Resources res = null;
     private SurfaceView view = null;
     private HashMap<Integer, MediaPlayer> audioMap = new HashMap<Integer, MediaPlayer>();
+    private float volumeLvl = 100.0f;
 
     private AudioManager()
     {
@@ -83,6 +84,14 @@ public class AudioManager {
         MediaPlayer result = MediaPlayer.create(view.getContext(), _id);
         audioMap.put(_id, result);
         return result;
+    }
+
+    public void SetVolumeLevel(float lvl) {
+        volumeLvl = lvl;
+    }
+
+    public float GetVolumeLevel() {
+        return volumeLvl;
     }
 
 }
